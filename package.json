@@ -1,0 +1,29 @@
+{
+  "name": "sports-betting-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes data from certain sports betting sites",
+  "main": "index.js",
+  "dependencies": {
+    "puppeteer": "^5.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldenwo/sports-betting-scraper.git"
+  },
+  "keywords": [
+    "webscraper",
+    "sports",
+    "betting"
+  ],
+  "author": "Golden Wo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goldenwo/sports-betting-scraper/issues"
+  },
+  "homepage": "https://github.com/goldenwo/sports-betting-scraper#readme"
+}
