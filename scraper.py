@@ -1,6 +1,5 @@
 import os
 import json
-import PureWage
 
 data = {}
 filename = "loginInfo.json"
@@ -68,5 +67,7 @@ if (os.path.exists(filename) and os.path.getsize(filename) > 0):
 else:
     generate_login_info()
 
+import PureWage
+PureWage.print_HTML()
 
 input("Press enter to exit\n")

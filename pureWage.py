@@ -29,8 +29,8 @@ headers = {
 }
 
 data = {
-  'account': login_info["username"],
-  'password': login_info["password"],
+  'account': login_info["purewage.com"]["username"],
+  'password': login_info["purewage.com"]["password"],
   'btn_login': 'Login',
   'IdBook': '33,42,147,151'
 }
@@ -42,7 +42,8 @@ s.post(login, headers=headers, data=data)
 
 # Get data
 while True:
-  sport = input("What sport? (Enter 'football' or 'basketball'")
+  sport = input("What sport? (Enter 'football' or 'basketball'): ")
+  print()
   # Football info
   if ("football" == sport.lower()):
     url = "https://www.purewage.com/wager/betslip/getLinesbyLeague.asp"
