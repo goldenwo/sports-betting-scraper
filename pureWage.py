@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import json
 
-login_info = {}
 with open("loginInfo.json") as f:
   login_info = json.load(f)
 
@@ -36,9 +35,101 @@ data = {
   'IdBook': '33,42,147,151'
 }
 
-
-url = "https://www.purewage.com/login.aspx"
-
+# Login
+login = "https://www.purewage.com/login.aspx"
 s = requests.Session()
+s.post(login, headers=headers, data=data)
 
-response = s.post(url, headers=headers, data=data)
+# Get data
+while True:
+  sport = input("What sport? (Enter 'football' or 'basketball'")
+  # Football info
+  if ("football" == sport.lower()):
+    url = "https://www.purewage.com/wager/betslip/getLinesbyLeague.asp"
+
+    url_headers = {
+      'authority': 'www.purewage.com',
+      'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+      'accept': '*/*',
+      'dnt': '1',
+      'x-requested-with': 'XMLHttpRequest',
+      'sec-ch-ua-mobile': '?0',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'origin': 'https://www.purewage.com',
+      'sec-fetch-site': 'same-origin',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-dest': 'empty',
+      'referer': 'https://www.purewage.com/wager/Sports.aspx?lid=2124',
+      'accept-language': 'en-US,en;q=0.9',
+      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO',
+    }
+
+    url_data = {
+      'pid': '239216',
+      'aid': '21276',
+      'idp': '3123',
+      'idpl': '4347',
+      'idc': '96276478',
+      'idlt': '1',
+      'idls': '2',
+      'idl': '2124',
+      'nhll': 'C',
+      'mlbl': 'N',
+      'utc': '-5',
+      'idlan': '0',
+      'bid': '42'
+    }
+
+    response = requests.post(url, headers=url_headers, data=url_data)
+    break
+
+  #Basketball info
+  elif ("basketball" == sport.lower()):
+    url = "https://www.purewage.com/wager/Sports.aspx?lid=318"
+
+    url_headers = {
+      'authority': 'www.purewage.com',
+      'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+      'accept': '*/*',
+      'dnt': '1',
+      'x-requested-with': 'XMLHttpRequest',
+      'sec-ch-ua-mobile': '?0',
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'origin': 'https://www.purewage.com',
+      'sec-fetch-site': 'same-origin',
+      'sec-fetch-mode': 'cors',
+      'sec-fetch-dest': 'empty',
+      'referer': 'https://www.purewage.com/wager/Sports.aspx?lid=2124',
+      'accept-language': 'en-US,en;q=0.9',
+      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO',
+    }
+
+    url_data = {
+      'pid': '239216',
+      'aid': '21276',
+      'idp': '3123',
+      'idpl': '4347',
+      'idc': '96276478',
+      'idlt': '1',
+      'idls': '2',
+      'idl': '318',
+      'nhll': 'C',
+      'mlbl': 'N',
+      'utc': '-5',
+      'idlan': '0',
+      'bid': '42'
+    }
+
+    response = requests.post(url, headers=url_headers, data=url_data)
+    break
+
+# Save content
+content = response.content
+
+# Create soup
+soup = BeautifulSoup(content, features="lxml")
+
+def print_HTML():
+  print(soup.prettify())

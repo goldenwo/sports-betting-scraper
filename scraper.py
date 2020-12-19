@@ -1,9 +1,11 @@
 import os
 import json
+import PureWage
 
 data = {}
 filename = "loginInfo.json"
 supported_sites = ["purewage.com", "ibet.ag", "everysport247.com", "betallweek.com"]
+supported_sports = ["football", "basketball"]
 
 def generate_login_info():
     # purewage.com
@@ -35,10 +37,14 @@ def generate_login_info():
         json.dump(data, fp)
 
 # Script starts here
-print("Sports Betting Scraper v1.0\n")
+print("Sports Props Betting Scraper v1.0\n")
 print("Sites supported: ")
 for site in supported_sites:
     print(site)
+print()
+print("Sports supported: ")
+for sport in supported_sports:
+    print(sport)
 print()
 
 # If loginInfo.json exists
