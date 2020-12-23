@@ -68,6 +68,6 @@ else:
     generate_login_info()
 
 import PureWage
-PureWage.print_HTML()
+PureWage.save_HTML()
 
 input("Press enter to exit\n")

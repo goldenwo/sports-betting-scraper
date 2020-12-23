@@ -63,7 +63,7 @@ while True:
       'sec-fetch-dest': 'empty',
       'referer': 'https://www.purewage.com/wager/Sports.aspx?lid=2124',
       'accept-language': 'en-US,en;q=0.9',
-      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO',
+      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO; ASPSESSIONIDSQCSDRRS=KCMJLEGALFICBNMPBBKJOKND; ASPSESSIONIDSQBRATRS=NPAAIADBLENMDPDBGOKPOGLG',
     }
 
     url_data = {
@@ -71,7 +71,7 @@ while True:
       'aid': '21276',
       'idp': '3123',
       'idpl': '4347',
-      'idc': '96276478',
+      'idc': '97087093',
       'idlt': '1',
       'idls': '2',
       'idl': '2124',
@@ -104,7 +104,7 @@ while True:
       'sec-fetch-dest': 'empty',
       'referer': 'https://www.purewage.com/wager/Sports.aspx?lid=2124',
       'accept-language': 'en-US,en;q=0.9',
-      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO',
+      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO; ASPSESSIONIDSQCSDRRS=KCMJLEGALFICBNMPBBKJOKND; ASPSESSIONIDSQBRATRS=NPAAIADBLENMDPDBGOKPOGLG',
     }
 
     url_data = {
@@ -112,10 +112,10 @@ while True:
       'aid': '21276',
       'idp': '3123',
       'idpl': '4347',
-      'idc': '96276478',
+      'idc': '97087093',
       'idlt': '1',
       'idls': '2',
-      'idl': '318',
+      'idl': '690',
       'nhll': 'C',
       'mlbl': 'N',
       'utc': '-5',
@@ -132,5 +132,11 @@ content = response.content
 # Create soup
 soup = BeautifulSoup(content, features="lxml")
 
-def print_HTML():
-  print(soup.prettify())
+samples = soup.select("html body ")
+
+
+
+def save_HTML():
+  file1 = open("test.html", "w+")
+  file1.write(soup.prettify())
+  file1.close()
