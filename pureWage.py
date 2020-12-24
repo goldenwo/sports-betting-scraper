@@ -132,11 +132,27 @@ content = response.content
 # Create soup
 soup = BeautifulSoup(content, features="lxml")
 
-samples = soup.select("html body ")
+#samples = soup.select("html > body > div")
 
+container = soup.select(".panel-body")
+
+linesTime = soup.find_all("div", class_="linesTime row-offset-0 hidden-xs col-xs-1")
+
+linesRot = soup.find_all("div", "linesRot row-offset-0 hidden-xs col-xs-1")
+
+linesPlayer = soup.find_all("div", "linesTeam row-offset-0 col-lg-4 col-md-4 col-sm-4 col-xs-12")
+
+ml = soup.find_all("a", class_="btn btn-light btn-sm btn-block regular-line")
 
 
 def save_HTML():
+  print("Your html file has been saved as 'test.html'")
   file1 = open("test.html", "w+")
   file1.write(soup.prettify())
   file1.close()
+
+def save_linesPlayer():
+  file2 = open("samples.txt", "w+")
+  for player in linesPlayer:
+    file2.write(player + "\n")
+  file2.close()

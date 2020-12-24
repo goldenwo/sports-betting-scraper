@@ -69,5 +69,6 @@ else:
 
 import PureWage
 PureWage.save_HTML()
+PureWage.save_linesPlayer()
 
 input("Press enter to exit\n")
