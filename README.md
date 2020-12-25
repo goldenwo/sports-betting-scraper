@@ -2,7 +2,7 @@
 A sports betting odds scraper for certain supported sites using your own login information. To have it work, login information for the supported sites are required.
 
 ## Currently supported sites
-[PureWage.com](purewage.com)
+[PureWage.com](https://purewage.com/)
 
 ## Currently supported sports
 Football
