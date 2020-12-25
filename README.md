@@ -1,9 +1,16 @@
 # Sports Betting Web Scraper (Work In Progress)
 
 ## Description
-A sports betting odds scraper for certain supported sites using your own login information.
+A sports betting odds scraper for certain supported sites using your own login information. To have it work, login information for the supported sites are required.
+
+### Currently supported sites
+purewage.com
+
+### Currently supported sports
+Football
 
 ## How to set up on Windows
+Install python3.
 
 ### Python 3 libraries
 ```
