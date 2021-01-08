@@ -87,24 +87,24 @@ while True:
 
   #Basketball info
   elif ("basketball" == sport.lower()):
-    url = "https://www.purewage.com/wager/Sports.aspx?lid=318"
+    url = "https://www.purewage.com/wager/betslip/getLinesbyLeague.asp"
 
     url_headers = {
-      'authority': 'www.purewage.com',
-      'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
-      'accept': '*/*',
-      'dnt': '1',
-      'x-requested-with': 'XMLHttpRequest',
-      'sec-ch-ua-mobile': '?0',
-      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'origin': 'https://www.purewage.com',
-      'sec-fetch-site': 'same-origin',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-dest': 'empty',
-      'referer': 'https://www.purewage.com/wager/Sports.aspx?lid=2124',
-      'accept-language': 'en-US,en;q=0.9',
-      'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO; ASPSESSIONIDSQCSDRRS=KCMJLEGALFICBNMPBBKJOKND; ASPSESSIONIDSQBRATRS=NPAAIADBLENMDPDBGOKPOGLG',
+        'authority': 'www.purewage.com',
+        'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
+        'accept': '*/*',
+        'dnt': '1',
+        'x-requested-with': 'XMLHttpRequest',
+        'sec-ch-ua-mobile': '?0',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'origin': 'https://www.purewage.com',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-dest': 'empty',
+        'referer': 'https://www.purewage.com/wager/Sports.aspx',
+        'accept-language': 'en-US,en;q=0.9',
+        'cookie': '__cfduid=d9a8d3b1aa6573e08f3430ce18ff94dbf1608325317; ASP.NET_SessionId=d3ttri55rphu3t45wgncq145; pl=; ASPSESSIONIDCSCAQCDR=PLAONFECAPKKAGEIKMKFCOPO; ASPSESSIONIDSQCSDRRS=KCMJLEGALFICBNMPBBKJOKND; ASPSESSIONIDSQBRATRS=NPAAIADBLENMDPDBGOKPOGLG; ASPSESSIONIDQQCTAQQS=BGGBHMPBPIMGEHDBGPKMKEBC; ASPSESSIONIDQQARQADS=JKBFAGODBDLIJLJILHJJICNB',
     }
 
     url_data = {
@@ -112,9 +112,9 @@ while True:
       'aid': '21276',
       'idp': '3123',
       'idpl': '4347',
-      'idc': '97087093',
+      'idc': '99798398',
       'idlt': '1',
-      'idls': '2',
+      'idls': 'E',
       'idl': '690',
       'nhll': 'C',
       'mlbl': 'N',
@@ -132,27 +132,18 @@ content = response.content
 # Create soup
 soup = BeautifulSoup(content, features="lxml")
 
-#samples = soup.select("html > body > div")
+rows = soup.find_all("div", class_="row")
 
-container = soup.select(".panel-body")
+lines = {}
 
-times = soup.find_all("div", class_="linesTime row-offset-0 hidden-xs col-xs-1")
+for row in rows:
+  player_info = row.find("div", class_="linesTeam row-offset-0 col-lg-4 col-md-4 col-sm-4 col-xs-12")
+  bet = row.find("a", class_="btn btn-light btn-sm btn-block regular-line")
+  if (player_info is not None and bet is not None):
+    bet_string = bet.get_text().replace("\u00bd", "(1/2)")
+    lines[player_info.get_text()] = bet_string
 
-rots = soup.find_all("div", "linesRot row-offset-0 hidden-xs col-xs-1")
+def save_lines():
+  file4 = open("./test/lines.json", "w+")
+  json.dump(lines, file4)
 
-players = soup.find_all("div", "linesTeam row-offset-0 col-lg-4 col-md-4 col-sm-4 col-xs-12")
-
-bets = soup.find_all("a", class_="btn btn-light btn-sm btn-block regular-line")
-
-
-def save_HTML():
-  print("Your html file has been saved as 'test.html' in the 'test' folder")
-  file1 = open("./test/test.html", "w+")
-  file1.write(soup.prettify())
-  file1.close()
-
-def save_linesPlayer():
-  file2 = open("./test/samples.txt", "w+")
-  for i in range(len(players)):
-    file2.write(players[i].get_text() + "\n")
-  file2.close()
