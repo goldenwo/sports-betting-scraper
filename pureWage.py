@@ -1,8 +1,6 @@
 import requests
 from requests import get
 from bs4 import BeautifulSoup
-import pandas as pd
-import numpy as np
 import json
 
 with open("loginInfo.json") as f:
@@ -29,8 +27,8 @@ headers = {
 }
 
 data = {
-  'account': login_info["purewage.com"]["username"],
-  'password': login_info["purewage.com"]["password"],
+  'account': "error",
+  'password': "error",
   'btn_login': 'Login',
   'IdBook': '33,42,147,151'
 }
@@ -41,9 +39,8 @@ s = requests.Session()
 s.post(login, headers=headers, data=data)
 
 # Get data
-while True:
-  sport = input("What sport? (Enter 'football' or 'basketball'): ")
-  print()
+def get_data(sport):
+  global response
   # Football info
   if ("football" == sport.lower()):
     url = "https://www.purewage.com/wager/betslip/getLinesbyLeague.asp"
@@ -83,7 +80,7 @@ while True:
     }
 
     response = requests.post(url, headers=url_headers, data=url_data)
-    break
+  # If statement end
 
   #Basketball info
   elif ("basketball" == sport.lower()):
@@ -124,26 +121,41 @@ while True:
     }
 
     response = requests.post(url, headers=url_headers, data=url_data)
-    break
+  # Else statement end
 
-# Save content
-content = response.content
+  # Save content
+  content = response.content
 
-# Create soup
-soup = BeautifulSoup(content, features="lxml")
+  # Create soup
+  soup = BeautifulSoup(content, features="lxml")
 
-rows = soup.find_all("div", class_="row")
+  rows = soup.find_all("div", class_="row")
 
-lines = {}
+  # Login info error checker
+  if (rows is None):
+    print("Error: Your login info for 'purewage.com' is incorrect\n")
+    input()
+    quit()
 
-for row in rows:
-  player_info = row.find("div", class_="linesTeam row-offset-0 col-lg-4 col-md-4 col-sm-4 col-xs-12")
-  bet = row.find("a", class_="btn btn-light btn-sm btn-block regular-line")
-  if (player_info is not None and bet is not None):
-    bet_string = bet.get_text().replace("\u00bd", "(1/2)")
-    lines[player_info.get_text()] = bet_string
+  lines = {}
+  foundInfo = False
 
-def save_lines():
-  file4 = open("./test/lines.json", "w+")
-  json.dump(lines, file4)
+  for row in rows:
+    player_info = row.find("div", class_="linesTeam row-offset-0 col-lg-4 col-md-4 col-sm-4 col-xs-12")
+    bet = row.find("a", class_="btn btn-light btn-sm btn-block regular-line")
+    if (player_info is not None and bet is not None):
+      foundInfo = True
+      player_info_string = " ".join(player_info.get_text().split())
+      bet_string = bet.get_text().replace("\u00bd", "(1/2)")
+      lines[player_info_string] = bet_string
+    # If statement end
+  # For loop end
 
+  # Site change error checker
+  if (foundInfo == False):
+    print("Error: Either there are no player props for your selected sport at this time or this version of the scraper no longer supports 'purewage.com'\n")
+    input()
+    quit()
+
+  return lines
+# Function end

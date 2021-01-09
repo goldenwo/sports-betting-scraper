@@ -67,7 +67,25 @@ if (os.path.exists(filename) and os.path.getsize(filename) > 0):
 else:
     generate_login_info()
 
-import PureWage
-PureWage.save_lines()
+# Get data
+while (True):
+    sport = input("What sport? (Enter 'football' or 'basketball'): ")
+    print()
+    if (sport.lower() == "football" or sport.lower() == "basketball"):
+        # purewage info import
+        import pureWage
+        purewage_data = pureWage.get_data(sport)
+        purewage_datafile = open("./test/purewage_data.json", "w+")
+        json.dump(purewage_data, purewage_datafile, indent = 4)
+
+        # everysport247 info import
+        #import everysport247
+        #everysport247_data = everysport247.get_data(sport)
+        #everysport247_datafile = open("./test/everysport247_data.json", "W+")
+        #json.dump(everysport247_data, everysport247_datafile, indent = 4)
+        break
+    else:
+        print("Please enter either 'football' or 'basketball'\n")
+
 
 input("Press enter to exit\n")
