@@ -7,32 +7,7 @@ with open("loginInfo.json") as f:
   login_info = json.load(f)
 
 login_headers = {
-    'authority': 'everysport247.com',
-    'cache-control': 'max-age=0',
-    'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
-    'sec-ch-ua-mobile': '?0',
-    'origin': 'https://everysport247.com',
-    'upgrade-insecure-requests': '1',
-    'dnt': '1',
-    'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-    'accept': '*/*',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-mode': 'cors',
-    'sec-fetch-user': '?1',
-    'sec-fetch-dest': 'empty',
-    'referer': 'https://everysport247.com/Common/Dashboard',
-    'accept-language': 'en-US,en;q=0.9',
-    'cookie': '__cfduid=d50a524b1b06496bf220e3b111a0d5c271608349604; ASP.NET_SessionId=ht0czcbgvijgqp52um553pzy',
-    'Referer': '',
-    'DNT': '1',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-    'Origin': 'chrome-extension://hdokiejnpimakedhajhdlcegeplioahd',
-    'x-requested-with': 'XMLHttpRequest',
-    'Upgrade-Insecure-Requests': '1',
-    'Accept': 'text/plain, */*; q=0.01',
-    'X-Requested-With': 'XMLHttpRequest',
-    'If-None-Match': '"eBsX1miKkVOhCepUWBu886yVJN4="',
 }
 
 login_data = {
@@ -51,39 +26,11 @@ def get_data(sport):
   global response
   # Football info
   if ("football" == sport.lower()):
-    print("Not implemented yet")
-  # If statement end
-
-  #Basketball info
-  elif ("basketball" == sport.lower()):
     url = "https://everysport247.com/Betting/Betting/DefaultGetScheduleDetails"
 
     url_headers = {
-      'authority': 'everysport247.com',
-      'cache-control': 'no-cache',
-      'sec-ch-ua': '"Google Chrome";v="87", " Not;A Brand";v="99", "Chromium";v="87"',
-      'sec-ch-ua-mobile': '?0',
-      'dnt': '1',
-      'upgrade-insecure-requests': '1',
       'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-      'accept': '*/*',
-      'sec-fetch-site': 'same-origin',
-      'sec-fetch-mode': 'cors',
-      'sec-fetch-user': '?1',
-      'sec-fetch-dest': 'empty',
-      'referer': 'https://everysport247.com/Common/Dashboard',
-      'accept-language': 'en-US,en;q=0.9',
-      'cookie': '__cfduid=d50a524b1b06496bf220e3b111a0d5c271608349604; ASP.NET_SessionId=wo0tsxttyt5ocbmwyqqeizqh',
-      'Referer': 'https://everysport247.com/Content/Css/teamlogos.css?v=205',
-      'DNT': '1',
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-      'Origin': 'https://everysport247.com',
-      'x-requested-with': 'XMLHttpRequest',
-      'pragma': 'no-cache',
-      'Accept': 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01',
-      'X-Requested-With': 'XMLHttpRequest',
-      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'origin': 'https://everysport247.com',
+      'cookie': '__cfduid=' + s.cookies.get_dict()['__cfduid'] + '; ASP.NET_SessionId=' + s.cookies.get_dict()['ASP.NET_SessionId'],
     }
 
     url_data = {
@@ -92,7 +39,27 @@ def get_data(sport):
       'TeaserType': '-1'
     }
 
-    response = requests.post(url, headers=url_headers, data=url_data)
+    response = s.post(url, headers=url_headers, data=url_data)
+
+    print("Not implemented yet")
+  # If statement end
+
+  #Basketball info
+  elif ("basketball" == sport.lower()):
+    url = "https://everysport247.com/Betting/Betting/DefaultGetScheduleDetails"
+
+    url_headers = {
+      'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+      'cookie': '__cfduid=' + s.cookies.get_dict()['__cfduid'] + '; ASP.NET_SessionId=' + s.cookies.get_dict()['ASP.NET_SessionId'],
+    }
+
+    url_data = {
+      'BetType': '0',
+      'Array': 'MTY0LDE2NSwxMjczLDEwOTEsMTQ3MCwxMjU2LDE2NzYsODU1LDEwMTksMTQ4MQ==',
+      'TeaserType': '-1'
+    }
+
+    response = s.post(url, headers=url_headers, data=url_data)
   # Else statement end
 
   # Save content
@@ -132,8 +99,11 @@ def get_data(sport):
   # Site change error checker
   if (foundInfo == False):
     print("Error: Either there are no player props for your selected sport at this time or this version of the scraper no longer supports 'everysport247.com'\n")
-    input()
-    quit()
+    print("Data from everysport247 will not be added to the calculations.")
+
+  cookies_file = open("./test/everysport247_cookies.txt", "w+")
+  cookies_file.write(json.dumps(s.cookies.get_dict(), indent=4))
+  cookies_file.close()
 
   return lines
 # Function end

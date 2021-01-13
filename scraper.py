@@ -33,7 +33,7 @@ def generate_login_info():
     print()
     # Creates JSON file
     with open(filename, "w") as fp:
-        json.dump(data, fp)
+        json.dump(data, fp, indent = 4)
 
 # Script starts here
 print("Sports Props Betting Scraper v1.0\n")
@@ -79,10 +79,16 @@ while (True):
         json.dump(purewage_data, purewage_datafile, indent = 4)
 
         # everysport247 info import
-        #import everysport247
-        #everysport247_data = everysport247.get_data(sport)
+        import everysport247
+        everysport247_data = everysport247.get_data(sport)
         #everysport247_datafile = open("./test/everysport247_data.json", "W+")
         #json.dump(everysport247_data, everysport247_datafile, indent = 4)
+
+        #betallweek info import
+        import betAllWeek
+        betallweek_data = betAllWeek.get_data(sport)
+        #betallweek_datafile = open("./test/betallweek_data.json", "W+")
+        #json.dump(betallweek_data, betallweek_datafile, indent = 4)
         break
     else:
         print("Please enter either 'football' or 'basketball'\n")
